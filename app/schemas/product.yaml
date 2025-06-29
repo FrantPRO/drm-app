@@ -1,0 +1,76 @@
+entity: product
+version: "1.0"
+description: "Product entity schema for DRM system"
+
+fields:
+  id:
+    type: string
+    required: true
+    primary_key: true
+    description: "Unique product identifier"
+  
+  name:
+    type: string
+    required: true
+    min_length: 1
+    max_length: 200
+    description: "Product name"
+  
+  description:
+    type: string
+    max_length: 1000
+    description: "Product description"
+  
+  price:
+    type: float
+    required: true
+    min_value: 0.01
+    description: "Product price"
+  
+  category:
+    type: string
+    enum: ["electronics", "clothing", "books", "home", "sports"]
+    description: "Product category"
+  
+  stock_quantity:
+    type: integer
+    required: true
+    min_value: 0
+    default: 0
+    description: "Available stock quantity"
+  
+  active:
+    type: boolean
+    required: true
+    default: true
+    description: "Product active status"
+  
+  created_at:
+    type: datetime
+    required: true
+    auto_generate: true
+    description: "Product creation timestamp"
+  
+  updated_at:
+    type: datetime
+    auto_generate: true
+    description: "Last update timestamp"
+
+indexes:
+  - fields: ["name"]
+  - fields: ["category"]
+  - fields: ["active"]
+
+rules:
+  create:
+    - validate_positive_price
+    - require_category
+    - validate_stock_quantity
+  
+  update:
+    - validate_positive_price_if_present
+    - prevent_negative_stock
+  
+  delete:
+    - check_no_pending_orders
+    - require_admin_role

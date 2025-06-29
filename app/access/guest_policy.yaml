@@ -1,0 +1,22 @@
+role: guest
+version: "1.0"
+description: "Limited access policy for guest users"
+
+permissions:
+  product:
+    - read
+    conditions:
+      - active_products_only: true
+      - public_information_only: true
+      - limited_results: 50
+
+restrictions:
+  - no_user_management
+  - no_order_creation
+  - no_sensitive_data_access
+  - rate_limit_requests: 20_per_hour
+  - session_timeout: 1_hour
+
+audit:
+  log_access_attempts: true
+  log_suspicious_behavior: true

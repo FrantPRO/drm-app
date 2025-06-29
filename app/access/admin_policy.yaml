@@ -1,0 +1,42 @@
+role: admin
+version: "1.0"
+description: "Full access policy for admin users"
+
+permissions:
+  user:
+    - create
+    - read
+    - update
+    - delete
+    conditions:
+      - always_allow: true
+  
+  product:
+    - create
+    - read
+    - update
+    - delete
+    conditions:
+      - always_allow: true
+  
+  order:
+    - create
+    - read
+    - update
+    - delete
+    conditions:
+      - always_allow: true
+
+special_permissions:
+  - manage_users
+  - view_system_logs
+  - modify_access_policies
+  - backup_restore
+
+restrictions:
+  - cannot_delete_self
+  - cannot_demote_self
+
+audit:
+  log_all_actions: true
+  require_reason_for_deletion: true

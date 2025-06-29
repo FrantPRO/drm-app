@@ -1,0 +1,34 @@
+role: user
+version: "1.0"
+description: "Standard user access policy"
+
+permissions:
+  user:
+    - read
+    - update
+    conditions:
+      - own_record_only: true
+      - cannot_change_role: true
+  
+  product:
+    - read
+    conditions:
+      - active_products_only: true
+  
+  order:
+    - create
+    - read
+    - update
+    conditions:
+      - own_orders_only: true
+      - cannot_modify_completed_orders: true
+
+restrictions:
+  - cannot_access_admin_functions
+  - cannot_view_other_users
+  - cannot_modify_system_settings
+  - rate_limit_requests: 100_per_hour
+
+audit:
+  log_sensitive_actions: true
+  log_failed_attempts: true

@@ -1,0 +1,61 @@
+entity: user
+version: "1.0"
+description: "User entity schema for DRM system"
+
+fields:
+  id:
+    type: string
+    required: true
+    primary_key: true
+    description: "Unique user identifier"
+  
+  name:
+    type: string
+    required: true
+    min_length: 2
+    max_length: 100
+    description: "User full name"
+  
+  email:
+    type: string
+    required: true
+    format: email
+    unique: true
+    description: "User email address"
+  
+  role:
+    type: string
+    required: true
+    enum: ["admin", "user", "guest"]
+    default: "user"
+    description: "User role for access control"
+  
+  created_at:
+    type: datetime
+    required: true
+    auto_generate: true
+    description: "User creation timestamp"
+  
+  updated_at:
+    type: datetime
+    auto_generate: true
+    description: "Last update timestamp"
+
+indexes:
+  - fields: ["email"]
+    unique: true
+  - fields: ["role"]
+
+rules:
+  create:
+    - validate_email_format
+    - check_email_uniqueness
+    - require_strong_password
+  
+  update:
+    - validate_email_format_if_present
+    - prevent_role_self_modification
+  
+  delete:
+    - prevent_self_deletion
+    - require_admin_role
