@@ -10,7 +10,7 @@ type Engine struct {
 	AccessPolicyAgent *AccessPolicyAgent
 	IntentParser      *IntentParser
 	LogicAgent        *LogicAgent
-	DataAgent         *DataAgent
+	DataAgent         *LLMDataAgent
 }
 
 type Command struct {
@@ -27,7 +27,7 @@ func NewEngine() *Engine {
 		AccessPolicyAgent: NewAccessPolicyAgent(),
 		IntentParser:      NewIntentParser(),
 		LogicAgent:        NewLogicAgent(),
-		DataAgent:         NewDataAgent(),
+		DataAgent:         NewLLMDataAgent(),
 	}
 }
 
