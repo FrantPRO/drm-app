@@ -1,17 +1,17 @@
--- Инициализация базы данных для DRM приложения
+-- Database initialization for DRM application
+-- Database drm_app is already created via POSTGRES_DB variable
 
-CREATE DATABASE drm_app;
-
+-- Connecting to the database
 \c drm_app;
 
--- Таблица пользователей
+-- Users table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица ресурсов
+-- Resources table
 CREATE TABLE resources (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE resources (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица политик доступа
+-- Access policies table
 CREATE TABLE access_policies (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE access_policies (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица логов доступа
+-- Access logs table
 CREATE TABLE access_logs (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),

@@ -5,10 +5,10 @@ description: "Limited access policy for guest users"
 permissions:
   product:
     - read
-    conditions:
-      - active_products_only: true
-      - public_information_only: true
-      - limited_results: 50
+    - onditions:
+        - active_products_only: true
+        - public_information_only: true
+        - limited_results: 50
 
 restrictions:
   - no_user_management

@@ -6,22 +6,22 @@ permissions:
   user:
     - read
     - update
-    conditions:
-      - own_record_only: true
-      - cannot_change_role: true
+    - conditions:
+        - own_record_only: true
+        - cannot_change_role: true
   
   product:
     - read
-    conditions:
-      - active_products_only: true
+    - conditions:
+        - active_products_only: true
   
   order:
     - create
     - read
     - update
-    conditions:
-      - own_orders_only: true
-      - cannot_modify_completed_orders: true
+    - conditions:
+        - own_orders_only: true
+        - cannot_modify_completed_orders: true
 
 restrictions:
   - cannot_access_admin_functions

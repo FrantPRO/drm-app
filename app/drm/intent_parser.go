@@ -33,11 +33,17 @@ func (p *IntentParser) Parse(query string) (*Command, error) {
 		command.Action = "read"
 	}
 
-	if strings.Contains(query, "user") {
+	// Extract the command part (before json:)
+	commandPart := query
+	if jsonIndex := strings.Index(query, "json:"); jsonIndex != -1 {
+		commandPart = query[:jsonIndex]
+	}
+	
+	if strings.Contains(commandPart, "user") {
 		command.Entity = "user"
-	} else if strings.Contains(query, "product") {
+	} else if strings.Contains(commandPart, "product") {
 		command.Entity = "product"
-	} else if strings.Contains(query, "order") {
+	} else if strings.Contains(commandPart, "order") {
 		command.Entity = "order"
 	} else {
 		return nil, fmt.Errorf("unknown entity in query: %s", query)

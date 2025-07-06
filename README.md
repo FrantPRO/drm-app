@@ -10,6 +10,11 @@
 * Executable business rules described as YAML policies
 * Integration-ready for LLM-based parsing and reasoning
 
+## Install dependencies
+```console
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1
+```
+
 ## Architecture
 #### System Components
  

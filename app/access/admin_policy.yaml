@@ -8,24 +8,24 @@ permissions:
     - read
     - update
     - delete
-    conditions:
-      - always_allow: true
+    - conditions:
+        - always_allow: true
   
   product:
     - create
     - read
     - update
     - delete
-    conditions:
-      - always_allow: true
+    - conditions:
+        - always_allow: true
   
   order:
     - create
     - read
     - update
     - delete
-    conditions:
-      - always_allow: true
+    - conditions:
+        - always_allow: true
 
 special_permissions:
   - manage_users

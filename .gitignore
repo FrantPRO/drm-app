@@ -49,3 +49,4 @@ Thumbs.db
 
 # Claude settings
 .claude/
+/.http_requests/
