@@ -14,7 +14,7 @@ func NewIntentParser() *IntentParser {
 
 func (p *IntentParser) Parse(query string) (*Command, error) {
 	query = strings.TrimSpace(strings.ToLower(query))
-	
+
 	if query == "" {
 		return nil, fmt.Errorf("empty query")
 	}
@@ -34,23 +34,35 @@ func (p *IntentParser) Parse(query string) (*Command, error) {
 	}
 
 	// Extract the command part (before json:)
-	commandPart := query
+	commandPart := strings.TrimSpace(query)
 	if jsonIndex := strings.Index(query, "json:"); jsonIndex != -1 {
-		commandPart = query[:jsonIndex]
+		commandPart = strings.TrimSpace(query[:jsonIndex])
 	}
-	
-	if strings.Contains(commandPart, "user") {
-		command.Entity = "user"
-	} else if strings.Contains(commandPart, "product") {
-		command.Entity = "product"
-	} else if strings.Contains(commandPart, "order") {
-		command.Entity = "order"
-	} else {
+
+	// Use word boundary detection for more precise matching
+	commandWords := strings.Fields(commandPart)
+	entityFound := false
+
+	for _, word := range commandWords {
+		switch strings.ToLower(word) {
+		case "user", "users":
+			command.Entity = "user"
+			entityFound = true
+		case "product", "products":
+			command.Entity = "product"
+			entityFound = true
+		case "order", "orders":
+			command.Entity = "order"
+			entityFound = true
+		}
+	}
+
+	if !entityFound {
 		return nil, fmt.Errorf("unknown entity in query: %s", query)
 	}
 
 	command.Data = make(map[string]interface{})
-	
+
 	if strings.Contains(query, "json:") {
 		jsonStart := strings.Index(query, "json:")
 		if jsonStart != -1 {

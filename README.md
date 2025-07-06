@@ -74,6 +74,152 @@ drm-app/
 * Modular agent architecture (Parser, Access, Logic, Data)
 * Easy future integration with LLMs (GPT/OpenRouter/Ollama)
 
+## API Usage
+
+### Authentication
+The application uses token-based authentication with three predefined roles:
+
+| Token | Role | Permissions |
+|-------|------|-------------|
+| `admin-token` | Admin | Full access: create, read, update, delete all entities |
+| `user-token` | User | Limited: read/update users, read products, create/read orders |
+| `guest-token` | Guest | Read-only: products only |
+
+### Endpoint
+**POST** `/request`
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "query": "natural language query with optional json:{...}",
+  "token": "admin-token|user-token|guest-token"
+}
+```
+
+### Request Examples
+
+#### Admin Role Examples (admin-token)
+Full access to all operations:
+
+```bash
+# Create a new user
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "create user json:{\"name\":\"John Doe\",\"email\":\"john@example.com\"}", "token": "admin-token"}'
+
+# List all users
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "list users", "token": "admin-token"}'
+
+# Update a user
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "update user json:{\"id\":\"1\",\"name\":\"Jane Smith\"}", "token": "admin-token"}'
+
+# Delete a user
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "delete user json:{\"id\":\"2\"}", "token": "admin-token"}'
+
+# Create a product
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "create product json:{\"name\":\"Gaming Laptop\",\"price\":1299.99}", "token": "admin-token"}'
+```
+
+#### User Role Examples (user-token)
+Limited access - can manage own profile and orders:
+
+```bash
+# Read user information
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "read user json:{\"id\":\"2\"}", "token": "user-token"}'
+
+# Update own profile
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "update user json:{\"id\":\"2\",\"name\":\"Updated Name\"}", "token": "user-token"}'
+
+# View products
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "list products", "token": "user-token"}'
+
+# Create an order
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "create order json:{\"items\":[{\"product_id\":\"1\",\"quantity\":2}]}", "token": "user-token"}'
+
+# View orders
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "list orders", "token": "user-token"}'
+```
+
+#### Guest Role Examples (guest-token)
+Read-only access to products:
+
+```bash
+# View products (allowed)
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "list products", "token": "guest-token"}'
+
+# Read specific product
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "read product json:{\"id\":\"1\"}", "token": "guest-token"}'
+
+# Access denied examples:
+# Trying to access users (will fail)
+curl -X POST http://localhost:8080/request \
+  -H "Content-Type: application/json" \
+  -d '{"query": "list users", "token": "guest-token"}'
+# Response: {"error":"access denied for action read on entity user"}
+```
+
+### Response Format
+
+**Success Response:**
+```json
+{
+  "result": {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "created_at": "2025-01-06T12:00:00Z"
+  },
+  "status": "success"
+}
+```
+
+**Error Response:**
+```json
+{
+  "error": "authentication failed: invalid token"
+}
+```
+
+### Natural Language Query Format
+
+The query format supports:
+- **Actions**: create, add, read, get, list, show, update, modify, change, delete, remove
+- **Entities**: user, product, order
+- **Data**: `json:{...}` for structured data
+
+**Examples:**
+- `"list users"` - Read all users
+- `"create user json:{\"name\":\"...\",\"email\":\"...\"}"`
+- `"update product json:{\"id\":\"1\",\"price\":99.99}"`
+- `"delete order json:{\"id\":\"1\"}"`
+
 ### Planned Extensions
 * Add LLM-based IntentParser using OpenAI or local models
 * Event-based agent (EventAgent)
