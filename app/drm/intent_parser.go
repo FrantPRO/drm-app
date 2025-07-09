@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+
+	"drm-app/app/data"
 )
 
 type IntentParser struct{}
@@ -12,14 +14,14 @@ func NewIntentParser() *IntentParser {
 	return &IntentParser{}
 }
 
-func (p *IntentParser) Parse(query string) (*Command, error) {
+func (p *IntentParser) Parse(query string) (*data.Command, error) {
 	query = strings.TrimSpace(strings.ToLower(query))
 
 	if query == "" {
 		return nil, fmt.Errorf("empty query")
 	}
 
-	var command Command
+	var command data.Command
 
 	if strings.Contains(query, "create") || strings.Contains(query, "add") {
 		command.Action = "create"

@@ -1,10 +1,18 @@
-package drm
+package data
 
 import (
 	"context"
 	"fmt"
 	"time"
 )
+
+type Command struct {
+	Action   string                 `json:"action"`
+	Entity   string                 `json:"entity"`
+	Data     map[string]interface{} `json:"data"`
+	UserID   string                 `json:"user_id"`
+	UserRole string                 `json:"user_role"`
+}
 
 type DataAgent struct {
 	data map[string]map[string]interface{}

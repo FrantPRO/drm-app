@@ -28,6 +28,15 @@ go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1
 | Data           | `DataAgent`         | Executes Create/Read/Update/Delete       |
 | Storage        | `PostgreSQL`        | Persistent data store                    |
 
+#### DataAgent
+The DataAgent is responsible for executing CRUD operations on entities. The system includes two implementations:
+
+**LLMDataAgent**: Uses Ollama with Llama 3.2 1B model to intelligently process data operations. It sends the current data state and command details to the LLM for analysis and execution guidance. When the LLM is unavailable, it falls back to standard execution.
+
+**DataAgent**: A simple in-memory implementation that directly executes CRUD operations without LLM assistance.
+
+Both agents maintain the same interface and provide identical functionality, with LLMDataAgent offering AI-enhanced data processing capabilities.
+
 #### Directory Structure
 ```
 drm-app/
@@ -79,11 +88,11 @@ drm-app/
 ### Authentication
 The application uses token-based authentication with three predefined roles:
 
-| Token | Role | Permissions |
-|-------|------|-------------|
-| `admin-token` | Admin | Full access: create, read, update, delete all entities |
-| `user-token` | User | Limited: read/update users, read products, create/read orders |
-| `guest-token` | Guest | Read-only: products only |
+| Token          | Role   | Permissions                                                   |
+|----------------|--------|---------------------------------------------------------------|
+| `admin-token`  | Admin  | Full access: create, read, update, delete all entities        |
+| `user-token`   | User   | Limited: read/update users, read products, create/read orders |
+| `guest-token`  | Guest  | Read-only: products only                                      |
 
 ### Endpoint
 **POST** `/request`

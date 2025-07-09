@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"drm-app/app/data"
 )
 
 type LogicAgentTestSuite struct {
@@ -17,7 +18,7 @@ func (s *LogicAgentTestSuite) SetupSuite() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUserCreateValid() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "user",
 		Data: map[string]interface{}{
@@ -31,7 +32,7 @@ func (s *LogicAgentTestSuite) TestValidateUserCreateValid() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUserCreateMissingName() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "user",
 		Data: map[string]interface{}{
@@ -45,7 +46,7 @@ func (s *LogicAgentTestSuite) TestValidateUserCreateMissingName() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUserCreateEmptyName() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "user",
 		Data: map[string]interface{}{
@@ -60,7 +61,7 @@ func (s *LogicAgentTestSuite) TestValidateUserCreateEmptyName() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUserCreateMissingEmail() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "user",
 		Data: map[string]interface{}{
@@ -74,7 +75,7 @@ func (s *LogicAgentTestSuite) TestValidateUserCreateMissingEmail() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUserUpdateValid() {
-	command := &Command{
+	command := &data.Command{
 		Action: "update",
 		Entity: "user",
 		Data: map[string]interface{}{
@@ -88,7 +89,7 @@ func (s *LogicAgentTestSuite) TestValidateUserUpdateValid() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUserUpdateEmpty() {
-	command := &Command{
+	command := &data.Command{
 		Action: "update",
 		Entity: "user",
 		Data:   map[string]interface{}{},
@@ -100,7 +101,7 @@ func (s *LogicAgentTestSuite) TestValidateUserUpdateEmpty() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateProductCreateValid() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "product",
 		Data: map[string]interface{}{
@@ -114,7 +115,7 @@ func (s *LogicAgentTestSuite) TestValidateProductCreateValid() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateProductCreateMissingName() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "product",
 		Data: map[string]interface{}{
@@ -128,7 +129,7 @@ func (s *LogicAgentTestSuite) TestValidateProductCreateMissingName() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateProductCreateInvalidPrice() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "product",
 		Data: map[string]interface{}{
@@ -143,7 +144,7 @@ func (s *LogicAgentTestSuite) TestValidateProductCreateInvalidPrice() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateProductCreateZeroPrice() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "product",
 		Data: map[string]interface{}{
@@ -158,7 +159,7 @@ func (s *LogicAgentTestSuite) TestValidateProductCreateZeroPrice() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateOrderCreateValid() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "order",
 		Data: map[string]interface{}{
@@ -176,7 +177,7 @@ func (s *LogicAgentTestSuite) TestValidateOrderCreateValid() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateOrderCreateNoItems() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "order",
 		Data: map[string]interface{}{
@@ -190,7 +191,7 @@ func (s *LogicAgentTestSuite) TestValidateOrderCreateNoItems() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateOrderCreateMissingItems() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "order",
 		Data:   map[string]interface{}{},
@@ -202,7 +203,7 @@ func (s *LogicAgentTestSuite) TestValidateOrderCreateMissingItems() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUnknownEntity() {
-	command := &Command{
+	command := &data.Command{
 		Action: "create",
 		Entity: "unknown",
 		Data:   map[string]interface{}{},
@@ -213,7 +214,7 @@ func (s *LogicAgentTestSuite) TestValidateUnknownEntity() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateUnknownAction() {
-	command := &Command{
+	command := &data.Command{
 		Action: "unknown",
 		Entity: "user",
 		Data:   map[string]interface{}{},
@@ -224,7 +225,7 @@ func (s *LogicAgentTestSuite) TestValidateUnknownAction() {
 }
 
 func (s *LogicAgentTestSuite) TestValidateReadAction() {
-	command := &Command{
+	command := &data.Command{
 		Action: "read",
 		Entity: "user",
 		Data:   map[string]interface{}{},

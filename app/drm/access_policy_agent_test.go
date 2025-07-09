@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"drm-app/app/data"
 )
 
 type AccessPolicyAgentTestSuite struct {
@@ -17,7 +18,7 @@ func (s *AccessPolicyAgentTestSuite) SetupSuite() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestAdminCanCreateUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "create",
 		Entity:   "user",
 		UserRole: "admin",
@@ -28,7 +29,7 @@ func (s *AccessPolicyAgentTestSuite) TestAdminCanCreateUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestAdminCanReadUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "user",
 		UserRole: "admin",
@@ -39,7 +40,7 @@ func (s *AccessPolicyAgentTestSuite) TestAdminCanReadUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestAdminCanUpdateUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "update",
 		Entity:   "user",
 		UserRole: "admin",
@@ -50,7 +51,7 @@ func (s *AccessPolicyAgentTestSuite) TestAdminCanUpdateUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestAdminCanDeleteUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "delete",
 		Entity:   "user",
 		UserRole: "admin",
@@ -61,7 +62,7 @@ func (s *AccessPolicyAgentTestSuite) TestAdminCanDeleteUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCanReadUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "user",
 		UserRole: "user",
@@ -72,7 +73,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCanReadUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCanUpdateUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "update",
 		Entity:   "user",
 		UserRole: "user",
@@ -83,7 +84,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCanUpdateUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCannotCreateUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "create",
 		Entity:   "user",
 		UserRole: "user",
@@ -94,7 +95,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCannotCreateUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCannotDeleteUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "delete",
 		Entity:   "user",
 		UserRole: "user",
@@ -105,7 +106,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCannotDeleteUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCanReadProduct() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "product",
 		UserRole: "user",
@@ -116,7 +117,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCanReadProduct() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCannotCreateProduct() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "create",
 		Entity:   "product",
 		UserRole: "user",
@@ -127,7 +128,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCannotCreateProduct() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCanCreateOrder() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "create",
 		Entity:   "order",
 		UserRole: "user",
@@ -138,7 +139,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCanCreateOrder() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCanReadOrder() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "order",
 		UserRole: "user",
@@ -149,7 +150,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCanReadOrder() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUserCannotUpdateOrder() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "update",
 		Entity:   "order",
 		UserRole: "user",
@@ -160,7 +161,7 @@ func (s *AccessPolicyAgentTestSuite) TestUserCannotUpdateOrder() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestGuestCanReadProduct() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "product",
 		UserRole: "guest",
@@ -171,7 +172,7 @@ func (s *AccessPolicyAgentTestSuite) TestGuestCanReadProduct() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestGuestCannotReadUser() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "user",
 		UserRole: "guest",
@@ -182,7 +183,7 @@ func (s *AccessPolicyAgentTestSuite) TestGuestCannotReadUser() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestGuestCannotCreateProduct() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "create",
 		Entity:   "product",
 		UserRole: "guest",
@@ -193,7 +194,7 @@ func (s *AccessPolicyAgentTestSuite) TestGuestCannotCreateProduct() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestGuestCannotAccessOrder() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "order",
 		UserRole: "guest",
@@ -204,7 +205,7 @@ func (s *AccessPolicyAgentTestSuite) TestGuestCannotAccessOrder() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUnknownRole() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "user",
 		UserRole: "unknown",
@@ -215,7 +216,7 @@ func (s *AccessPolicyAgentTestSuite) TestUnknownRole() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUnknownEntity() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "read",
 		Entity:   "unknown",
 		UserRole: "admin",
@@ -226,7 +227,7 @@ func (s *AccessPolicyAgentTestSuite) TestUnknownEntity() {
 }
 
 func (s *AccessPolicyAgentTestSuite) TestUnknownAction() {
-	command := &Command{
+	command := &data.Command{
 		Action:   "unknown",
 		Entity:   "user",
 		UserRole: "admin",

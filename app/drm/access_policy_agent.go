@@ -1,5 +1,7 @@
 package drm
 
+import "drm-app/app/data"
+
 type AccessPolicyAgent struct {
 	policies map[string]map[string][]string
 }
@@ -24,7 +26,7 @@ func NewAccessPolicyAgent() *AccessPolicyAgent {
 	}
 }
 
-func (a *AccessPolicyAgent) CheckAccess(command *Command) bool {
+func (a *AccessPolicyAgent) CheckAccess(command *data.Command) bool {
 	rolePermissions, roleExists := a.policies[command.UserRole]
 	if !roleExists {
 		return false

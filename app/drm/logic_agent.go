@@ -2,6 +2,8 @@ package drm
 
 import (
 	"fmt"
+
+	"drm-app/app/data"
 )
 
 type LogicAgent struct {
@@ -33,7 +35,7 @@ func (l *LogicAgent) loadRules() {
 	}
 }
 
-func (l *LogicAgent) ValidateCommand(command *Command) error {
+func (l *LogicAgent) ValidateCommand(command *data.Command) error {
 	entityRules, exists := l.rules[command.Entity]
 	if !exists {
 		return nil

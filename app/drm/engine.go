@@ -3,6 +3,8 @@ package drm
 import (
 	"context"
 	"fmt"
+
+	"drm-app/app/data"
 )
 
 type Engine struct {
@@ -10,16 +12,9 @@ type Engine struct {
 	AccessPolicyAgent *AccessPolicyAgent
 	IntentParser      *IntentParser
 	LogicAgent        *LogicAgent
-	DataAgent         *LLMDataAgent
+	DataAgent         *data.LLMDataAgent
 }
 
-type Command struct {
-	Action   string                 `json:"action"`
-	Entity   string                 `json:"entity"`
-	Data     map[string]interface{} `json:"data"`
-	UserID   string                 `json:"user_id"`
-	UserRole string                 `json:"user_role"`
-}
 
 func NewEngine() *Engine {
 	return &Engine{
@@ -27,7 +22,7 @@ func NewEngine() *Engine {
 		AccessPolicyAgent: NewAccessPolicyAgent(),
 		IntentParser:      NewIntentParser(),
 		LogicAgent:        NewLogicAgent(),
-		DataAgent:         NewLLMDataAgent(),
+		DataAgent:         data.NewLLMDataAgent(),
 	}
 }
 
