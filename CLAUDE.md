@@ -12,8 +12,9 @@
    - Ensure no regressions are introduced
    - Verify the application still works as expected
 
-3. **After completing a task, add new files to git commit and write a short summary for the commit text**
+3. **After completing a task, prepare git commit but do NOT commit without explicit approval**
    - Stage all new and modified files using `git add`
-   - Create a concise commit message that describes what was accomplished
+   - Prepare a concise commit message that describes what was accomplished
    - Focus on the "what" and "why" rather than implementation details
    - Keep commit messages under 50 characters for the summary line
+   - **IMPORTANT: Ask for approval before running `git commit`**
