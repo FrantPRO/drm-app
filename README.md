@@ -42,20 +42,25 @@ Both agents maintain the same interface and provide identical functionality, wit
 drm-app/
 ├── app/
 │   ├── main.go                  # entry point
-│   ├── drm/                     # core DRM engine
+│   ├── drm/                     # core DRM engine (agents & engine)
 │   ├── handlers/                # HTTP request routing
 │   ├── parser/                  # intent parsing logic
 │   ├── logic/                   # rule execution and validation
-│   ├── access/                  # access policies
-│   ├── data/                    # data storage abstraction
+│   ├── access/                  # access policies (YAML files)
+│   ├── data/                    # data storage abstraction & agents
+│   ├── db/                      # database configuration & connection
 │   ├── schemas/                 # YAML-based entity declarations
+│   ├── test/                    # API tests and test helpers
 │   └── utils/                   # helper functions
-├── db-data/                     # volume-mounted folder for Postgres
 ├── docker/
 │   ├── Dockerfile               # Go backend container build
-│   └── init.sql (optional)      # schema bootstrap for Postgres
+│   └── init.sql                 # schema bootstrap for Postgres
+├── scripts/
+│   └── test.sh                  # test execution script
 ├── docker-compose.yml           # full service orchestration
 ├── go.mod / go.sum              # Go module definition
+├── Makefile                     # build, test, and lint commands
+├── CLAUDE.md                    # Claude Code project instructions
 └── README.md
 ```
 
