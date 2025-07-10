@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"drm-app/app/data"
+	"drm-app/app/db"
 )
 
 type Engine struct {
@@ -12,17 +13,40 @@ type Engine struct {
 	AccessPolicyAgent *AccessPolicyAgent
 	IntentParser      *IntentParser
 	LogicAgent        *LogicAgent
-	DataAgent         *data.LLMDataAgent
+	DataAgent         data.DataExecutor
+	Database          *db.Database
 }
 
+func NewEngine() (*Engine, error) {
+	database, err := db.NewDatabase()
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize database: %w", err)
+	}
 
-func NewEngine() *Engine {
 	return &Engine{
 		AuthAgent:         NewAuthAgent(),
 		AccessPolicyAgent: NewAccessPolicyAgent(),
 		IntentParser:      NewIntentParser(),
 		LogicAgent:        NewLogicAgent(),
-		DataAgent:         data.NewLLMDataAgent(),
+		DataAgent:         data.NewPostgresLLMDataAgent(database),
+		Database:          database,
+	}, nil
+}
+
+func (e *Engine) Close() {
+	if e.Database != nil {
+		e.Database.Close()
+	}
+}
+
+func NewTestEngine() *Engine {
+	return &Engine{
+		AuthAgent:         NewAuthAgent(),
+		AccessPolicyAgent: NewAccessPolicyAgent(),
+		IntentParser:      NewIntentParser(),
+		LogicAgent:        NewLogicAgent(),
+		DataAgent:         data.NewTestDataAgent(),
+		Database:          nil,
 	}
 }
 
