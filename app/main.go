@@ -12,7 +12,12 @@ import (
 var engine *drm.Engine
 
 func main() {
-	engine = drm.NewEngine()
+	var err error
+	engine, err = drm.NewEngine()
+	if err != nil {
+		log.Fatalf("Failed to initialize engine: %v", err)
+	}
+	defer engine.Close()
 
 	app := fiber.New(fiber.Config{
 		AppName: "DRM Core v1.0.0",

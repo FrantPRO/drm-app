@@ -8,7 +8,8 @@ services:
     ports:
       - "${APP_PORT}:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
@@ -17,6 +18,7 @@ services:
       - DB_NAME=${DB_NAME}
     networks:
       - drm-network
+    restart: unless-stopped
 
   postgres:
     image: postgres:15-alpine
@@ -31,6 +33,13 @@ services:
       - "${DB_EXTERNAL_PORT}:5432"
     networks:
       - drm-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 networks:
   drm-network:
