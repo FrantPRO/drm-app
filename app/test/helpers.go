@@ -16,26 +16,35 @@ type TestApp struct {
 }
 
 func NewTestApp(t *testing.T) *TestApp {
-	engine := drm.NewEngine()
-	
+	engine := drm.NewTestEngine()
+
 	app := fiber.New(fiber.Config{
 		AppName: "DRM Core Test v1.0.0",
 	})
-	
+
 	app.Post("/request", createHandleRequest(engine))
-	
+
 	client := httpexpect.WithConfig(httpexpect.Config{
 		Client: &http.Client{
 			Transport: httpexpect.NewFastBinder(app.Handler()),
 		},
 		Reporter: httpexpect.NewAssertReporter(t),
 	})
-	
-	return &TestApp{
+
+	testApp := &TestApp{
 		App:    app,
 		Engine: engine,
 		Client: client,
 	}
+
+	// Cleanup function to close database connection
+	t.Cleanup(func() {
+		if engine != nil {
+			engine.Close()
+		}
+	})
+
+	return testApp
 }
 
 func createHandleRequest(engine *drm.Engine) fiber.Handler {
@@ -118,14 +127,14 @@ func AssertSuccessResponse(t *testing.T, resp *httpexpect.Response) *httpexpect.
 		t.Errorf("Expected status 200, got %d. Response body: %s", resp.Raw().StatusCode, resp.Body().Raw())
 		t.FailNow()
 	}
-	
+
 	obj := resp.Status(http.StatusOK).
 		JSON().
 		Object()
-	
+
 	obj.Value("status").String().IsEqual("success")
 	obj.ContainsKey("result")
-	
+
 	return obj
 }
 
@@ -133,7 +142,7 @@ func AssertErrorResponse(t *testing.T, resp *httpexpect.Response, statusCode int
 	obj := resp.Status(statusCode).
 		JSON().
 		Object()
-	
+
 	obj.ContainsKey("error")
 	if errorMsg != "" {
 		obj.Value("error").String().Contains(errorMsg)
